@@ -1,0 +1,69 @@
+{% load app_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dataset</title>
+</head>
+<body style="background-image: linear-gradient(#089ac2, #def8ff);">
+    <h2> LABEL SELECTION </h2>
+    <h2> Entries: {{entries}}</h2>
+    <h4> DataSet Size: {{size}}</h4>
+
+
+    <form  method="post" enctype="multipart/form-data" action="preprocess">
+        {% csrf_token %}
+        <div style="width: 100%; overflow-y: scroll; overflow-x: scroll; border-style: groove; background-color: #ededed;">
+        <table>
+            <tr>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">             </th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> COLUMNS &nbsp;&nbsp;&nbsp; </th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> DATATYPE &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> MEAN &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> STD &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> MIN &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> 25% &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> 50% &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> 75% &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> MAX &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> UNIQUE &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> TOP &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> FREQUENCY &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> PREPROCESS REQ &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> COMMENTS &nbsp;&nbsp;&nbsp;</th>
+            </tr>
+            <tr></tr><tr></tr><tr></tr><tr></tr><tr></tr><tr></tr>
+            {% for i in column %}
+            <tr></tr><tr></tr>
+            <tr>
+                <td>&nbsp;&nbsp;&nbsp;<input type="radio" name="label" value="{{ i.0 }}" required> &nbsp;&nbsp;&nbsp;</td>&nbsp;
+                <td style="border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black; text-align:center">&nbsp;&nbsp;&nbsp;<strong>{{i.0}}</strong> &nbsp;&nbsp;&nbsp;</td>&nbsp;
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.3}}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.5}}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.6}}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.7}}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.8}}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.9}}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.10}}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.11}}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.12}}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.13}}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{{i.14}}&nbsp;&nbsp;&nbsp;</td>
+
+
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{% if i.4 == 1 or i.3 == 'object' %} YES {% else %} NO {% endif %}&nbsp;&nbsp;&nbsp;</td>
+                <td style="text-align:center">&nbsp;&nbsp;&nbsp;{% if i.4 == 1 and i.3 == 'object' %} Contains Nan values/Contains String Values
+                    {% elif i.4 == 1 %} Contains Nan values {% elif i.3 == 'object' %} Contains String Values {% endif %}&nbsp;&nbsp;&nbsp;</td>
+            </tr>
+            {% endfor %}
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+            <tr>
+                <td></td>
+                <td><input type="hidden" name="filename" value="{{ filename }}"><button type="submit">SELECT & PREPROCESS</button></td>
+            </tr>
+        </table>
+        </div>
+    </form>
+</body>
+</html>

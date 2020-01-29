@@ -1,0 +1,32 @@
+{% load app_tags %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+</head>
+<body style="background-image: linear-gradient(#defaff, #ffffff); background-repeat: no-repeat; background-size: 100% 100%; ">
+
+<h1>MODEL: {{ model }}</h1>
+<h1>Cross Valiation Stats</h1>
+<h1>Validation Scoring: {{ scoring }}</h1>
+<table>
+    <tr>
+        <th>CV Step &nbsp;&nbsp;&nbsp;</th>
+        <th>Score &nbsp;&nbsp;&nbsp;</th>
+        <th>RMSE &nbsp;&nbsp;&nbsp;</th>
+    </tr>
+    {% for i in cv|entry_num_array %}
+    <tr>
+        <td>{{ cv_list|index:i }}</td>
+        <td>{{ scores|index:i }}</td>
+        <td>{{ rmse|index:i }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<h2>Mean:  {{ mean }}</h2>
+<h2>Standard deviation:  {{ std }}</h2>
+
+<input type=button value="Fine-Tune HyperParameter" onClick="javascript:history.go(-1);">
+</body>
+</html>

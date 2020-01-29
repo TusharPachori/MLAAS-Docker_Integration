@@ -1,0 +1,50 @@
+{% load app_tags %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dataset</title>
+</head>
+<body style="background-image: linear-gradient(#089ac2, #def8ff);">
+    <h2> FEATURE SELECTION </h2>
+    <form  method="post" enctype="multipart/form-data" action="modelSelection">
+        {% csrf_token %}
+        <div style="overflow-y: scroll; border-style: groove; background-image: linear-gradient(to right, #ededed , #a6ecff);">
+        <table>
+            <tr>
+                <th> &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> Columns &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> Correlation with {{ label }} &nbsp;&nbsp;&nbsp;</th>
+                <th style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;"> Comments &nbsp;&nbsp;&nbsp;</th>
+            </tr>
+            {% for row in columns|entry_num_array %}
+            <tr>
+                {% if  columns|index:row  != label  %}
+                    {% if comment|index:row >= 3%}
+                        <td style="text-align:center"><input type="checkbox" name="features" value="{{ columns|index:row }}" checked></td>
+                    {% else %}
+                        <td style="text-align:center"><input type="checkbox" name="features" value="{{ columns|index:row }}"></td>
+                    {% endif%}
+                {% else %}
+                    <td></td>
+                {% endif %}
+                <td style="border-right: 1px solid black; border-top: 1px solid black; border-bottom: 1px solid black; text-align:center"><strong>{{ columns|index:row }}</strong></td>
+                <td style="text-align:center">{{ corr|index:row }}</td>
+                {% if comment|index:row == 5%}
+                    <td style="text-align:center"> Highly Correlated</td>
+                {% elif comment|index:row == 4%}
+                    <td style="text-align:center"> Correlated</td>
+                {% elif comment|index:row == 3%}
+                    <td style="text-align:center"> Slightly Correlated</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
+        <input type="hidden" name="label" value="{{ label }}">
+        <input type="hidden" name="filename" value="{{ filename }}">
+        <button type="submit">DONE</button>
+    </form>
+</body>
+</html>

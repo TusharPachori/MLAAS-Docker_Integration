@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h2 style="float: right;"><a href="{% url 'logout' %}">LogOut</a>
+    <a href="{% url 'password_reset' %}">Reset Password</a></h2><br><br><br>
+<h1>Hi {{ user.username }}!</h1>
+  <form method="post" action="{% url 'index' %}">
+      {% csrf_token %}
+    <br>
+    <h1><button type="submit">Automated Machine Learning</button></h1>
+    <h1><button disabled>Service 2</button></h1>
+    <h1><button disabled>Service 3</button></h1>
+    <h1><button disabled>Service 4</button></h1>
+    <h1><button disabled>Service 5</button></h1>
+</form>
+{% else %}
+
+<p><h2>Automated Machine Learning As A Service</h2></p>
+<h2><a href="{% url 'login' %}"> LOGIN </a></h2><br><br><br>
+<h3>New Here?</h3><a href="{% url 'signup' %}">CREATE NEW USER </a>
+
+
+{% endif %}
+{% endblock %}
